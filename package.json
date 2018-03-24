@@ -1,0 +1,24 @@
+{
+  "name": "ts-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bot": "nodemon --watch 'src/**/*' -e ts --exec 'ts-node' ./src/bot.ts",
+    "bot:dev": "npm run bot --inspect=5858 --debug-brk --ignore false "
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^9.6.0",
+    "@types/request": "^2.47.0",
+    "nodemon": "^1.17.2",
+    "ts-node": "^5.0.1"
+  },
+  "dependencies": {
+    "request": "^2.85.0",
+    "typescript": "^2.7.2",
+    "winston": "^2.4.1"
+  }
+}
