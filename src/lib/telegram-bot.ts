@@ -5,6 +5,7 @@ import { TelegramRouter } from './router/telegram-router';
 export class TelegramBot {
   public router: TelegramRouter = new TelegramRouter();
   public api: TelegramApi;
+  public chat_id: number;
   
   private updater: TelegramUpdateStrategy;
   

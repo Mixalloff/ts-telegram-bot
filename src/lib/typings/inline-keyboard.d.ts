@@ -1,5 +1,5 @@
 export interface InlineKeyboardMarkup {
-  inline_keyboard: InlineKeyboardButton;
+  inline_keyboard: Array<Array<InlineKeyboardButton>>;
 }
 
 export interface InlineKeyboardButton {

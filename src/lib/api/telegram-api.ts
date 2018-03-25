@@ -1,6 +1,7 @@
-import { ISendMessageRequest, IGetUpdatesRequest, Message } from './../typings';
+import { ISendMessageRequest, IGetUpdatesRequest, Message, IGetMeResponse, IGetMeResult } from './../typings';
 import * as request from 'request';
 import { Update } from '../typings';
+import { OptionsWithUrl } from 'request';
 
 export class TelegramApi {
   private token: string;
@@ -8,6 +9,10 @@ export class TelegramApi {
 
   constructor(token: string) {
     this.token = token;
+  }
+
+  getMe(): Promise<IGetMeResult> {
+    return this.query({ url: '/getMe', method: 'GET' }).then( ( { result }: IGetMeResponse ) => result );
   }
 
   getUpdates(body: IGetUpdatesRequest): Promise<Update[]> {
@@ -19,11 +24,16 @@ export class TelegramApi {
     return this.query({ url: '/sendMessage', method: 'POST', body })
   }
 
-  private query(options: any): Promise<any> {
+  private query(options: OptionsWithUrl): Promise<any> {
     options.url = this.API_URL + this.token + options.url;
     Object.assign(options, { json: true });
     return new Promise((resolve, reject) => 
-      request( options, (err: any, res: any, body: any) => err ? reject(err) : resolve(body) )
+      request( options, (err: any, res: any, body: any) => {
+        console.log('body: ',body)
+        if (err) return reject(err);
+        if (body.ok === false) return reject(body);
+        return resolve(body);
+      })
     );
   }
 }

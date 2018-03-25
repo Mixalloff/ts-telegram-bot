@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "bot": "nodemon --watch 'src/**/*' -e ts --exec 'ts-node' ./src/bot.ts",
-    "bot:dev": "npm run bot --inspect=5858 --debug-brk --ignore false "
+    "bot:dev": "npm run bot --inspect=5858 --inspect-brk --ignore false "
   },
   "author": "",
   "license": "ISC",

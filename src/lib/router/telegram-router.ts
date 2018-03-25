@@ -16,13 +16,33 @@ export class TelegramRouter {
 
   handle(updates: Update[]) {
     for (const update of updates) {
-      const [ command, ...params ] = update.message.text.split(' ');
-      const handlers = this.routes.filter( (route: TelegramRoute) => command === route.command );
-      if (handlers.length) {
-        handlers.forEach( (route: TelegramRoute) => route.handler(update, params) );
-      } else {
-        this.defaultRoute.handler(update, params);
+      switch(true) {
+        case !!update.message: return this.handleMessage(update);
+        case !!update.callback_query: return this.handleCallbackQuery(update);
+        default: throw new Error(update.toString());
       }
     }
+  }
+
+  private handleState(chat_id: number, update: Update, command: string, params: string[]){
+    const handlers = this.routes.filter( (route: TelegramRoute) => command === route.command );
+
+    if (handlers.length) {
+      handlers.forEach( (route: TelegramRoute) => route.handler(chat_id, update, params) );
+    } else {
+      this.defaultRoute.handler(chat_id, update, params);
+    }
+  }
+
+  private handleMessage(update: Update) {
+    const [ command, ...params ] = update.message.text.split(' ');
+
+    this.handleState(update.message.chat.id, update, command, params);
+  }
+
+  private handleCallbackQuery(update: Update) {
+    const [ command, ...params ] = update.callback_query.data.split(' ');
+
+    this.handleState(update.callback_query.message.chat.id, update, command, params);
   }
 }

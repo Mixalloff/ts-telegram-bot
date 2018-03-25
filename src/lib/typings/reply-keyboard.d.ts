@@ -1,7 +1,7 @@
 import { KeyboardButton } from './keyboard-button.d';
 
 export interface ReplyKeyboardMarkup {
-  keyboard: KeyboardButton
+  keyboard: Array<Array<KeyboardButton>>;
   resize_keyboard?: boolean;
   one_time_keyboard?: boolean;
   selective?: boolean;
