@@ -1,8 +1,8 @@
-import { ITelegramUpdater } from './updater.d';
 import { TelegramLongPollingUpdater } from './telegram-long-polling-updater';
 import { TelegramBot } from '../telegram-bot';
+import { IUpdater } from '../typings';
 
-export class TelegramUpdateStrategy implements ITelegramUpdater {
+export class TelegramUpdateStrategy implements IUpdater {
   private updater: TelegramLongPollingUpdater;
 
   constructor(bot: TelegramBot, options: any = {}) {

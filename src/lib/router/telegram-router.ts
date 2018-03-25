@@ -1,16 +1,16 @@
 import { TelegramRoute } from './telegram-route';
-import { Update } from '../typings';
+import { Update, IRouteHandler } from '../typings';
 
 export class TelegramRouter {
   private routes: TelegramRoute[] = [];
   private defaultRoute: TelegramRoute;
 
-  route(command: string, handler: Function): this {
+  route(command: string, handler: IRouteHandler): this {
     this.routes.push(new TelegramRoute(command, handler));
     return this;
   }
 
-  otherwise(handler: Function): void {
+  otherwise(handler: IRouteHandler): void {
     this.defaultRoute = new TelegramRoute(null, handler);
   }
 
@@ -19,9 +19,9 @@ export class TelegramRouter {
       const [ command, ...params ] = update.message.text.split(' ');
       const handlers = this.routes.filter( (route: TelegramRoute) => command === route.command );
       if (handlers.length) {
-        handlers.forEach( (route: TelegramRoute) => route.handler(params) );
+        handlers.forEach( (route: TelegramRoute) => route.handler(update, params) );
       } else {
-        this.defaultRoute.handler(params);
+        this.defaultRoute.handler(update, params);
       }
     }
   }

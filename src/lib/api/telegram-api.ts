@@ -1,3 +1,4 @@
+import { ISendMessageRequest, IGetUpdatesRequest, Message } from './../typings';
 import * as request from 'request';
 import { Update } from '../typings';
 
@@ -9,9 +10,13 @@ export class TelegramApi {
     this.token = token;
   }
 
-  getUpdates(body: { timeout: number, offset?: number, limit?: number }): Promise<Update[]> {
+  getUpdates(body: IGetUpdatesRequest): Promise<Update[]> {
     return this.query({ url: '/getUpdates', method: 'POST', body })
       .then( response => response.result );
+  }
+
+  sendMessage(body: ISendMessageRequest): Promise<Message> {
+    return this.query({ url: '/sendMessage', method: 'POST', body })
   }
 
   private query(options: any): Promise<any> {

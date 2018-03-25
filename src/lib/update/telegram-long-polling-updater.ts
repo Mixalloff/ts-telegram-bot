@@ -1,8 +1,7 @@
-import { Update } from './../typings';
+import { Update, IUpdater } from './../typings';
 import { TelegramBot } from '../telegram-bot';
-import { ITelegramUpdater } from './updater';
 
-export class TelegramLongPollingUpdater implements ITelegramUpdater {
+export class TelegramLongPollingUpdater implements IUpdater {
   private TIMEOUT = 30;
   private offset: number;
 
